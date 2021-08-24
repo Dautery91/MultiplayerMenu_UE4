@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/modules.xml
+/contentModel.xml
+/projectSettingsUpdater.xml
+/.idea.PuzzlePlatforms.iml
+# Datasource local storage ignored files
+/../../../../../../../../../../:\Users\Drake\source\repos\MultiplayerMenu_UE4\PuzzlePlatforms\.idea\.idea.PuzzlePlatforms.dir\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
