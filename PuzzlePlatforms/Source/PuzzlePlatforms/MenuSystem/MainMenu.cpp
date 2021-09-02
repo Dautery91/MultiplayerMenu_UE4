@@ -4,6 +4,7 @@
 #include "MenuSystem/MainMenu.h"
 
 #include "Button.h"
+#include "WidgetSwitcher.h"
 #include "Kismet/GameplayStatics.h"
 
 bool UMainMenu::Initialize()
@@ -11,30 +12,52 @@ bool UMainMenu::Initialize()
 	bool Success = Super::Initialize();
 	if (!Success) return false;
 
-	if ((Host == nullptr)) return false;
-	Host->OnClicked.AddDynamic(this, &UMainMenu::HostServer);
+	if ((HostButton == nullptr)) return false;
+	HostButton->OnClicked.AddDynamic(this, &UMainMenu::HostServer);
 
-	if ((Join == nullptr)) return false;
-	Join->OnClicked.AddDynamic(this, &UMainMenu::JoinServer);
+	if ((JoinButton == nullptr)) return false;
+	JoinButton->OnClicked.AddDynamic(this, &UMainMenu::OpenJoinMenu);
+
+	if ((JoinAcceptButton == nullptr)) return false;
+	JoinAcceptButton->OnClicked.AddDynamic(this, &UMainMenu::JoinServer);
+
+	if ((BackButton == nullptr)) return false;
+	BackButton->OnClicked.AddDynamic(this, &UMainMenu::OpenMainMenu);
 	
 	return true;
 }
 
-void UMainMenu::SetMenuInterface(IMenuInterface* MenuInterface)
+void UMainMenu::OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld)
 {
-	this->MenuInterface = MenuInterface;
+	Teardown();
 }
 
 void UMainMenu::HostServer()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Host Button Clicked!"));
 	if (MenuInterface != nullptr)
 		MenuInterface->Host();
 }
 
+void UMainMenu::OpenJoinMenu()
+{
+	if (!ensure(MenuSwitcher != nullptr)) return;
+	if (!ensure(JoinMenu != nullptr)) return;
+	MenuSwitcher->SetActiveWidget(JoinMenu);
+}
+
+void UMainMenu::OpenMainMenu()
+{
+	if (!ensure(MenuSwitcher != nullptr)) return;
+	if (!ensure(MainMenu != nullptr)) return;
+	MenuSwitcher->SetActiveWidget(MainMenu);
+}
+
 void UMainMenu::JoinServer()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Join Button Clicked!"));
-	// if (MenuInterface != nullptr)
-	// 	MenuInterface->Join(const FString& Address);
+	if (MenuInterface != nullptr && IPAddressField != nullptr)
+	{
+		const FString Address = IPAddressField->GetText().ToString();
+		MenuInterface->Join(Address);
+		UE_LOG(LogTemp, Warning, TEXT("Joining Server %s"), *Address);
+	}
 }
