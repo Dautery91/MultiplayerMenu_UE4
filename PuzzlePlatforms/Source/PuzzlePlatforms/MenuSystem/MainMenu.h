@@ -31,6 +31,9 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* JoinAcceptButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* QuitButton;
 	
 	UPROPERTY(meta = (BindWidget))
 	class UWidgetSwitcher* MenuSwitcher;
@@ -55,6 +58,9 @@ private:
 	
 	UFUNCTION()
 	void JoinServer();
+
+	UFUNCTION()
+	void QuitGame();
 
 	
 };

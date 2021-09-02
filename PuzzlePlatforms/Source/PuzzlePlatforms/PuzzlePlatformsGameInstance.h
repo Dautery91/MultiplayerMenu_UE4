@@ -32,6 +32,11 @@ public:
 	UFUNCTION(Exec)
 	virtual void Join(const FString& Address) override;
 
+	UFUNCTION()
+	virtual void LoadMainMenuScene() override;
+
+	virtual void QuitGame() override;
+
 	UPROPERTY()
 	TSubclassOf<class UUserWidget> MenuClass;
 

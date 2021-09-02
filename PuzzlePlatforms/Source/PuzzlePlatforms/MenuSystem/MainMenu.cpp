@@ -23,6 +23,9 @@ bool UMainMenu::Initialize()
 
 	if ((BackButton == nullptr)) return false;
 	BackButton->OnClicked.AddDynamic(this, &UMainMenu::OpenMainMenu);
+
+	if ((QuitButton == nullptr)) return false;
+	QuitButton->OnClicked.AddDynamic(this, &UMainMenu::QuitGame);
 	
 	return true;
 }
@@ -58,6 +61,12 @@ void UMainMenu::JoinServer()
 	{
 		const FString Address = IPAddressField->GetText().ToString();
 		MenuInterface->Join(Address);
-		UE_LOG(LogTemp, Warning, TEXT("Joining Server %s"), *Address);
+		
 	}
+}
+
+void UMainMenu::QuitGame()
+{
+	if (MenuInterface == nullptr) return;
+	MenuInterface->QuitGame();
 }

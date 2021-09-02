@@ -26,5 +26,7 @@ void UInGameMenu::ReturnToGame()
 
 void UInGameMenu::QuitToMainMenu()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Quitting to main menu"));
+	if (MenuInterface == nullptr) return;
+	Teardown();
+	MenuInterface->LoadMainMenuScene();
 }
